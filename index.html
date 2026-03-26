@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends Savings - BORKOT ISLAM</title>
+    <style>
+        :root { --primary: #007bff; --bg: #f4f7f6; --white: #ffffff; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .flex-col { display: flex; flex-direction: column; flex: 1; }
+
+        /* Header & Branding */
+        .header { background: var(--white); padding: 15px; text-align: center; border-bottom: 1px solid #ddd; position: relative; z-index: 10; }
+        .back-btn { position: absolute; left: 15px; top: 20px; font-size: 20px; cursor: pointer; border: none; background: none; }
+        .menu-dots { position: absolute; right: 15px; top: 15px; font-size: 28px; cursor: pointer; }
+        .circle-logo { width: 70px; height: 70px; border-radius: 50%; background: var(--primary); margin: 0 auto 5px; border: 3px solid #eee; overflow: hidden; }
+        .app-name { font-size: 20px; font-weight: bold; margin: 0; color: #333; }
+        .app-title { font-size: 12px; color: #888; margin: 2px 0; }
+
+        /* Login Card */
+        .auth-screen { display: flex; align-items: center; justify-content: center; flex: 1; padding: 20px; }
+        .login-card { background: var(--white); width: 100%; max-width: 360px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        .rule-btn { background: #ffc107; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; cursor: pointer; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .btn-main { width: 100%; background: var(--primary); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .auth-footer-links { display: flex; justify-content: space-between; margin-top: 20px; font-size: 13px; }
+        .link-red { color: #d9534f; text-decoration: none; font-weight: bold; }
+        .link-blue { color: var(--primary); text-decoration: none; font-weight: bold; }
+
+        /* Dashboard Boxes */
+        .dashboard-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 15px; }
+        .stat-box { background: var(--white); padding: 12px 5px; border-radius: 12px; text-align: center; border: 1px solid #eee; }
+        .stat-box h4 { margin: 0; font-size: 10px; color: #999; text-transform: uppercase; }
+        .stat-box p { margin: 5px 0 0; font-size: 13px; font-weight: bold; color: var(--primary); }
+
+        /* Member List Row */
+        .section-title { padding: 0 15px; font-size: 16px; margin: 10px 0; text-align: left; }
+        .member-row { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
+        .member-avatar { text-align: center; min-width: 70px; cursor: pointer; }
+        .avatar-img { width: 60px; height: 60px; border-radius: 50%; background: #eee; border: 2px solid var(--primary); margin-bottom: 5px; }
+
+        /* Profile & Ledger Page */
+        .dual-profile { display: flex; justify-content: space-around; padding: 20px; }
+        .profile-circle { text-align: center; }
+        .profile-circle img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--primary); }
+        .ledger-container { background: var(--white); border-radius: 20px 20px 0 0; flex: 1; padding: 15px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; font-size: 12px; }
+        th, td { border: 1px solid #eee; padding: 10px; text-align: center; }
+        th { background: #f8f9fa; }
+
+        /* Footer - FIXED at bottom */
+        .footer { background: var(--bg); padding: 15px; text-align: center; font-size: 12px; color: #aaa; border-top: 1px solid #eee; margin-top: auto; }
+
+        /* Popup Menu */
+        .popup-menu { position: fixed; top: 60px; right: 15px; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 10px; width: 200px; z-index: 100; display: none; }
+        .popup-menu div { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; cursor: pointer; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <div id="screen-login" class="flex-col">
+        <div class="header">
+            <div class="circle-logo"></div>
+            <p class="app-name">ফ্রেন্ডস সেভিংস</p>
+            <p class="app-title">অফেরত যোগ্য ১২ বছর</p>
+        </div>
+        <div class="auth-screen">
+            <div class="login-card">
+                <button class="rule-btn" onclick="alert('সমিতির নিয়মাবলী এখানে অ্যাডমিন লিখে দেবেন।')">নিয়মাবলী</button>
+                <input type="text" placeholder="ইউজারনেম">
+                <input type="password" placeholder="পাসওয়ার্ড">
+                <button class="btn-main" onclick="showScreen('home')">লগইন করুন</button>
+                <div class="auth-footer-links">
+                    <a href="#" class="link-red" onclick="alert('অ্যাডমিন অনুমোদনের অপেক্ষায় রিকোয়েস্ট যাবে।')">পাসওয়ার্ড ভুলে গেছেন?</a>
+                    <a href="#" class="link-blue" onclick="alert('আবেদনটি অ্যাডমিন অনুমোদনের অপেক্ষায় আছে।')">নতুন একাউন্ট</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-home" class="flex-col hidden">
+        <div class="header">
+            <div class="menu-dots" onclick="toggleMenu()">⋮</div>
+            <div class="circle-logo" style="width: 50px; height: 50px;"></div>
+            <p class="app-name" style="font-size: 18px;">ফ্রেন্ডস সেভিংস</p>
+            <p class="app-title">অফেরত যোগ্য ১২ বছর</p>
+        </div>
+        
+        <div class="dashboard-stats">
+            <div class="stat-box"><h4>মোট সঞ্চয়</h4><p id="total-savings">৳ ১০,০০০</p></div>
+            <div class="stat-box"><h4>মোট স্থিতি</h4><p id="total-status">৳ ৮,০০০</p></div>
+            <div class="stat-box"><h4>নিট লভ্যাংশ</h4><p id="total-profit">৳ ১,০০০</p></div>
+        </div>
+
+        <p class="section-title">সদস্যদের তালিকা</p>
+        <div class="member-row">
+            <div class="member-avatar" onclick="showProfile('বরকত ইসলাম', 'FS-001')">
+                <div class="avatar-img"></div>
+                <span>বরকত</span>
+            </div>
+            <div class="member-avatar" onclick="showProfile('বোরহান ইসলাম', 'FS-002')">
+                <div class="avatar-img"></div>
+                <span>বোরহান</span>
+            </div>
+        </div>
+
+        <div id="popup-menu" class="popup-menu">
+            <div onclick="alert('অ্যাডমিন প্যানেল লোড হচ্ছে...')">⚙️ অ্যাডমিন প্যানেল</div>
+            <div onclick="alert('নতুন সদস্য ফর্ম...')">➕ নতুন সদস্য যোগদান</div>
+            <div onclick="alert('সদস্য তালিকা...')">❌ সদস্য ডিলিট</div>
+            <div onclick="location.reload()">🚪 লগ-আউট</div>
+        </div>
+    </div>
+
+    <div id="screen-profile" class="flex-col hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('home')">⬅</button>
+            <div class="circle-logo" style="width: 40px; height: 40px;"></div>
+            <p class="app-name" style="font-size: 16px;">ফ্রেন্ডস সেভিংস</p>
+        </div>
+
+        <div class="dual-profile">
+            <div class="profile-circle">
+                <img src="https://via.placeholder.com/80" alt="Member">
+                <p style="font-size: 12px; font-weight: bold;" id="p-name"></p>
+                <p id="p-id" style="font-size: 10px; color: gray;"></p>
+            </div>
+            <div class="profile-circle" onclick="alert('নমিনির তথ্য শুধু অ্যাডমিন ও সদস্য নিজে দেখতে পারবে।')">
+                <img src="https://via.placeholder.com/80" alt="Nominee" style="filter: blur(2px);">
+                <p style="font-size: 12px; color: gray;">নমিনি (Lock)</p>
+            </div>
+        </div>
+
+        <div class="dashboard-stats" style="padding-top: 0;">
+            <div class="stat-box"><h4>মোট জমা</h4><p>৳ ৫,০০০</p></div>
+            <div class="stat-box"><h4>মোট ইনভেস্ট</h4><p>৳ ১,০০০</p></div>
+            <div class="stat-box"><h4>বর্তমান পাওনা</h4><p>৳ ৪,১০০</p></div>
+        </div>
+
+        <div class="ledger-container">
+            <h4 style="margin-top: 0;">বিস্তারিত লেজার শিট</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>তারিখ</th>
+                        <th>মাসিক জমা</th>
+                        <th>ইনভেস্ট তারিখ</th>
+                        <th>ইনভেস্ট টাকা</th>
+                        <th>ফেরত তারিখ</th>
+                        <th>ফেরত টাকা</th>
+                        <th>লভ্যাংশ</th>
+                    </tr>
+                </thead>
+                <tbody id="ledger-body">
+                    <tr>
+                        <td>01/03/26</td><td>1000</td><td>-</td><td>-</td><td>-</td><td>-</td><td>50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">Created by: BORKOT ISLAM</div>
+
+    <script>
+        // স্ক্রিন পরিবর্তনের ফাংশন
+        function showScreen(screenId) {
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('screen-home').classList.add('hidden');
+            document.getElementById('screen-profile').classList.add('hidden');
+            
+            document.getElementById('screen-' + screenId).classList.remove('hidden');
+            document.getElementById('popup-menu').style.display = 'none';
+        }
+
+        // থ্রি-ডট মেনু টগল
+        function toggleMenu() {
+            const menu = document.getElementById('popup-menu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // প্রোফাইল পেজ ডাটা লোড
+        function showProfile(name, id) {
+            document.getElementById('p-name').innerText = name;
+            document.getElementById('p-id').innerText = "ID: " + id;
+            showScreen('profile');
+        }
+    </script>
+</body>
+</html>
